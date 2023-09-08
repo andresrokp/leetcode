@@ -81,12 +81,12 @@ function globantEncoder(yearBirth, monthBirth, dayBirth, yearPassport, monthPass
   }
   
   // Example usage:
-  const yearBirth = 1990;
-  const monthBirth = 5;
-  const dayBirth = 15;
+  const yearBirth = 2010;
+  const monthBirth = 12;
+  const dayBirth = 31;
   const yearPassport = 2020;
-  const monthPassport = 7;
-  const dayPassport = 10;
+  const monthPassport = 11;
+  const dayPassport = 31;
   
   const encoded = globantEncoder(yearBirth, monthBirth, dayBirth, yearPassport, monthPassport, dayPassport);
   console.log("Encoded Data Type:", typeof (encoded));

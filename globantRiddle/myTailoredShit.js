@@ -7,7 +7,7 @@ function globantEncoder(yearBirth, monthBirth, dayBirth, yearPassport, monthPass
 
     // Convert dates to binary representation with padding
     const birthDateBits = (yearBirth - 1900) << 9 | (monthBirth - 1) << 5 | (dayBirth - 1);
-    const passportDateBits = (yearPassport - 1900) << 9 | (monthPassport - 1) << 5 | (dayPassport - 1);
+    const passportDateBits = (yearPassport - 1900 - yearBirth) << 9 | (monthPassport - 1) << 5 | (dayPassport - 1);
 
     console.log('birthDateBitsENC\t',birthDateBits);
     console.log('birthDateBitsENC\t',birthDateBits.toString(2));
@@ -27,7 +27,7 @@ function globantEncoder(yearBirth, monthBirth, dayBirth, yearPassport, monthPass
     
     console.log('firstOctet\t\t',view.getUint8(0));
     console.log('firstOctet\t\t',view.getUint8(0).toString(2));
-    view.setUint8(0, view.getUint8(0) | parityBit); 
+    view.setUint8(0, parityBit === 1 ? view.getUint8(0) | 1 : view.getUint8(0) | 0); 
     // Get the 32-bit encoded value
     const encodedValue = view.getUint32(0); //@2012 igual
     console.log("finalENC:\t\t", encodedValue);
@@ -44,10 +44,10 @@ function globantDecoder(encodedValue) {
     view.setUint32(0, encodedValue);
     console.log('decoderInput\t\t',view.getUint32(0));
     console.log('decoderInput\t\t',view.getUint32(0).toString(2));
-    view.setUint8(0, view.getUint8(0) & 0b11111111); 
-    view.setUint8(2, view.getUint8(2) & 0b11111111); 
-    console.log('decoderInputHarmed\t',view.getUint32(0));
-    console.log('decoderInputHarmed\t',view.getUint32(0).toString(2));
+    // view.setUint8(0, view.getUint8(0) & 0b11111111); 
+    // view.setUint8(2, view.getUint8(2) & 0b11111111); 
+    // console.log('decoderInputHarmed\t',view.getUint32(0));
+    // console.log('decoderInputHarmed\t',view.getUint32(0).toString(2));
 
     // Extract data and parity bits
     const birthDateBits = view.getUint16(0);
@@ -91,12 +91,12 @@ function calculateParity(data) {
 }
 
 // Example usage:
-const yearBirth = 2012;
-const monthBirth = 12;
-const dayBirth = 31;
-const yearPassport = 2020;
-const monthPassport = 12;
-const dayPassport = 31;
+const yearBirth = 1910;
+const monthBirth = 2;
+const dayBirth = 1;
+const yearPassport = 1920;
+const monthPassport = 2;
+const dayPassport = 3;
 
 const encoded = globantEncoder(yearBirth, monthBirth, dayBirth, yearPassport, monthPassport, dayPassport);
 

@@ -10,5 +10,5 @@ function countBits(number) {
   
   // Driven program        
 
-  let num = 6058533266; 
+  let num = 3883856254;
   console.log(countBits(num));
