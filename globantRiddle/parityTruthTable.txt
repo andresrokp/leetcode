@@ -1,0 +1,43 @@
+Original(ParityOriginal) -> Replaced(ParityReplaced)
+
+0000(0) -> 000.0(0)
+0001(1) -> 000.1(1)
+0010(1) -> 001.1(0)
+0011(0) -> 001.0(1)
+0100(1) -> 010.1(0)
+0101(0) -> 010.0(1)
+0110(0) -> 011.0(0)
+0111(1) -> 011.1(1)
+1000(1) -> 100.1(0)
+1001(0) -> 100.0(1)
+1010(0) -> 101.0(0)
+1011(1) -> 101.1(1)
+1100(0) -> 110.0(0)
+1101(1) -> 110.1(1)
+1110(1) -> 111.1(0)
+1111(0) -> 111.0(1)
+
+
+The paterns in the my truth table tell me the new parity is the value to bu put to recover the data
+This approach is good but breaks when a corruption happens
+    If the Original Parity is 0, and the firstOctet LSB is 1, this LSB get replaced by 0. The new parity is 1 at decoding... But if coruption happens and any 0bit turn into 1 in the transport; the decoding parity will appear to be 0 (thanks to corruption) and the algorithm is fooled
+---
+Lets save year data
+The years span in 123 years
+That mean AT MOST passport year is 123 far from born year
+And in that case Born year itself is 0
+Leaving room to write anything in the passportYear bytes
+So the maximum sum of the normalized years is 123
+That is a 7 bit data (1111011) distributed into both Years Slots (born and pass in each binary)
+I will have a bit surplus!!
+
+Test cases
+
+born = 5    > xxxx101
+pasD = 118  > 1110110
+
+born = 61   > x111101
+pass = 62   > x111110
+
+born = 120  > 1111000
+pasD = 3    > xxxxx11
